@@ -2,6 +2,8 @@ import { Account, BaseAccountParams } from "./Account";
 import { AccountType } from "./AccountType";
 import { TransactionStore } from "models/transactions/TransactionStore";
 
+//TODO: add loan specific methods 
+
 
 export class LoanAccount extends Account {
     interestRate: number; // Annual interest rate

@@ -2,7 +2,7 @@
 import { Account, BaseAccountParams } from "./Account";
 import { AccountType } from "./AccountType";
 
-
+//TODO: where to move the interface 
 export interface Holding {
     symbol: string;
     quantity: number;
