@@ -1,3 +1,4 @@
+
 import { AccountType } from "./AccountType";
 import { TransactionStore } from "models/transactions/TransactionStore";
 
@@ -6,66 +7,62 @@ import { TransactionStore } from "models/transactions/TransactionStore";
  * Used internally by the abstract Account class and its subclasses.
  */
 export type BaseAccountParams = {
-    /** User-defined display name for the account */
+    id: string;
     name: string;
-
-    /** Last 4 digits of the account number (used as reference/display only) */
     accountNumber: string;
-
-    /** Name of the financial institution (e.g., Bank of America, Fidelity) */
     institution: string;
-
-    /** ISO currency code (e.g., "USD", "CAD"). Defaults to "USD" if omitted */
     currency?: string;
-
-    /** Optional notes attached to the account */
     notes?: string;
 };
 
 /**
  * Abstract parent class for all types of financial accounts.
  *
+ * Description: 
  * Encapsulates shared identity, transaction tracking, balance calculation,
  * and recurring event linkage. Concrete account types (e.g., Checking,
  * Savings, Credit Card) should extend this class and implement any
  * subclass-specific behavior or fields.
+ * 
+ * --- Internally used properties
+ * @property id: Unique id associated with account. [INTERNAL]
+ * @property isActive: Indicates if the account should be acknowledged. [INTERNAL]
+ * 
+ * --- Information about the account
+ * @property institution: Financial establishment where account resides.  
+ * @property name: Name assigned to an account by user.
+ * @property type: Type of account [Checking,Savings,Credit Card, etc ...]
+ * @property currency: ISO code of the currency held within account 
+ * @property accountNumber: Last x4 digits of an account number.  
+ * @property notes: [OPTIONAL] User provided notes about account.
+ * 
+ * --- Info for the account 
+ * @property transactionIds: List of ids referencing transactions associated with account.
+ * @property recurringEventIds: List of ids referencing recurring events associated with account: income, expenses, transfers. 
+ * 
+ * -- Info derevied from account
+ * @property balance: Balance of the account from transactions.
+ * @property balanceAsOf: Date at which the balance was updated. 
+ * 
  */
 export abstract class Account {
-    /** Institution where the account is held (e.g., Bank of America, Fidelity) */
-    institution: string;
-
-    /** Last 4 digits of the account number (display/reference only) */
-    accountNumber: string;
-
-    /** User-assigned display name for the account */
-    name: string;
-
-    /** Classification of the account (e.g., Checking, Savings, Credit Card) */
-    type: AccountType;
-
-    /** ISO currency code (e.g., USD, CAD). Defaults to "USD" */
-    currency: string;
-
-    /** Cached account balance derived from transactions */
-    balance: number = 0;
-
-    /** Timestamp of the last balance calculation */
-    balanceAsOf: Date = new Date();
-
-    /** IDs referencing transactions associated with this account */
-    transactionIds: string[] = [];
-
-    /** IDs referencing recurring events linked to this account */
-    recurringEventIds: string[] = [];
-
-    /** Optional user notes */
-    notes?: string;
-
-    /** Indicates whether the account is currently active */
+    id: string;
     isActive: boolean = true;
 
-    /** Determines whether the account is included in total balance calculations */
-    includeInTotalBalance: boolean = true;
+    institution: string;
+    name: string;
+    type: AccountType;
+    currency: string;
+    accountNumber: string;
+    notes?: string;
+
+    transactionIds: string[] = [];
+    recurringEventIds: string[] = [];
+
+    balance: number = 0;
+    balanceAsOf: Date = new Date();
+
+
 
     /**
      * Constructs a new Account instance.
@@ -74,6 +71,7 @@ export abstract class Account {
      * @throws Error if `accountNumber` is not exactly 4 digits
      */
     protected constructor(params: BaseAccountParams & { accountType: AccountType }) {
+        this.id = crypto.randomUUID();
         this.name = params.name;
         this.type = params.accountType;
         this.institution = params.institution;

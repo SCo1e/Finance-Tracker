@@ -38,11 +38,11 @@ export class Transaction {
     constructor(
         acctNum: string,
         type: "debit" | "credit" | "transfer",
-        date: Date,
         category: MainCategory,
         subCategory: SubCategory,
         amount: number,
         notes?: string,
+        date?: Date,
         recurringEventId?: string,
         counterParty?: string,
     ) {
@@ -53,7 +53,7 @@ export class Transaction {
         this.subCategory = subCategory;
         this.amount = amount;
         this.notes = notes ?? notes;
-        this.date = date ?? Date();
+        this.date = date ?? date;
         this.recurringEventId = recurringEventId ?? recurringEventId;
         this.counterParty = counterParty ?? counterParty;
     }
