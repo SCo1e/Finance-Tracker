@@ -7,12 +7,14 @@ export class LoanAccount extends Account {
     interestRate: number; // Annual interest rate
     termMonths: number;   // Loan term in months
     principal: number;    // Original loan principal amount
+    monthlyPayment: number; // monthly payment
 
-    constructor(params: BaseAccountParams & { interestRate: number; termMonths: number; principal: number }) {
+    constructor(params: BaseAccountParams & { interestRate: number; termMonths: number; principal: number, monthlyPayment: number }) {
         super({ ...params, accountType: AccountType.Loan });
         this.interestRate = params.interestRate;
         this.termMonths = params.termMonths;
         this.principal = params.principal;
+        this.monthlyPayment = params.monthlyPayment
     }
 
     /**
@@ -25,12 +27,4 @@ export class LoanAccount extends Account {
         return Math.max(this.principal - paid, 0);
     }
 
-    /**
-     * Calculates monthly payment based on principal, interest rate, and term
-     * @returns Monthly payment amount
-     */
-    calculateMonthlyPayment(): number {
-        const monthlyRate = this.interestRate / 100 / 12;
-        return (this.principal * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -this.termMonths));
-    }
 }
