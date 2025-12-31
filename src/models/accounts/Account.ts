@@ -66,7 +66,7 @@ export abstract class Account {
 
     /**
      * Constructs a new Account instance.
-     * 
+     *  
      * @param params - Parameters to initialize the account
      * @throws Error if `accountNumber` is not exactly 4 digits
      */

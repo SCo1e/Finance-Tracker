@@ -1,7 +1,8 @@
 {
 	"compilerOptions": {
 		"baseUrl": "src",
-		"inlineSourceMap": true,
+		"sourceMap": true,
+		"jsx": "react-jsx",
 		"inlineSources": true,
 		"module": "ESNext",
 		"target": "ES6",
@@ -19,12 +20,13 @@
 		"useUnknownInCatchVariables": true,
 		"lib": [
 			"DOM",
+			"ESNext",
 			"ES5",
 			"ES6",
 			"ES7"
 		]
 	},
 	"include": [
-		"src/**/*.ts"
+		"src/**/*"
 	]
 }
